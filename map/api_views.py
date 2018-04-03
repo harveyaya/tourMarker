@@ -8,7 +8,7 @@ from .models import Record
 class AllRecordAPI(APIView):
     def get(self, request):
         record = Record.objects.all().values()
-        # print(record)
+        print(record)
         serializer = AllRecordSerializer(record, many=True, context={"request":request})
         # print(serializer.data)
         json = JSONRenderer().render(serializer.data)

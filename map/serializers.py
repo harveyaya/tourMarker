@@ -13,7 +13,8 @@ class AllRecordSerializer(serializers.ModelSerializer):
         model = Record
         fields = ('id', 'longitude', 'latitude', 'begin_time', 'duration', 'photo_url')
 
-    def get_photo_url(self, car):
+    # In order to get photo url and serialize
+    def get_photo_url(self, photo):
         request = self.context.get('request')
-        photo_url = car.get('photos')
+        photo_url = photo.get('photos')
         return request.build_absolute_uri(photo_url)
