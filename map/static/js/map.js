@@ -27,4 +27,11 @@ window.eqfeed_callback = function(results) {
   }
   // TODO: add data to the map, using json file, see https://developers.google.com/maps/documentation/javascript/earthquakes#try-it-yourself_1
   // Update mao every time slide the slider
+  $.ajax({
+    method: 'GET',
+    url: '/welcome/',
+    success: function(data) {
+     console.log(data);
+    },
+  });
 }

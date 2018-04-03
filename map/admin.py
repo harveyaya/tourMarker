@@ -4,6 +4,6 @@ from django.contrib import admin
 from .models import (Record)
 
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ('longitute','latitude')
+    list_display = ('id','longitute','latitude')
 
 admin.site.register(Record, RecordAdmin)
