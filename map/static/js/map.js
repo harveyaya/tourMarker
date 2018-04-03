@@ -43,12 +43,12 @@
     });
   }
 
-  sendRequest() {
-    $.ajax({
-      url: url,
-      data: data,
-      success: success,
-      dataType: dataType
-    });
-  }
-}
+  // TODO: add data to the map, using json file, see https://developers.google.com/maps/documentation/javascript/earthquakes#try-it-yourself_1
+  // Update mao every time slide the slider
+  $.ajax({
+    method: 'GET',
+    url: '/api/map/add/record/',
+    success: function(data) {
+     console.log(data);
+    },
+  });

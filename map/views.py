@@ -7,7 +7,8 @@ from .models import Record
 class WelcomeView(View):
     template_name = "welcome.html"
     def get(self, request):
-        record = Record.objects.all().values()
-        print(record)
-        context = {record: record}
+        # record = Record.objects.all().values()
+        # print(record)
+        # context = {record: record}
+        context = {}
         return render(request, self.template_name, context)
