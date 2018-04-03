@@ -1,9 +1,8 @@
 $(document).ready(function(){
+	var maxDate=new Date(Math.max.apply(null, dates));
+	var minDate=new Date(Math.min.apply(null, dates));
 		$("#ex1").slider({
-		        formatter: function (value) {
-		        return 'Current value: ' + value;
-		      },
-					min:1,
+					min:0,
 					max:3,
 					value:3,
 					step:1
