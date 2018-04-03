@@ -1,30 +1,53 @@
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 2,
-    center: new google.maps.LatLng(2.8,-187.3),
-    mapTypeId: 'terrain'
-  });
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 5,
+      center: {lng: -87.629, lat: 41.878},
+      mapTypeId: 'terrain'
+    });
+    map.data.loadGeoJson('/static/js/geo.json');
 
-  // Create a <script> tag and set the USGS URL as the source.
-  var script = document.createElement('script');
-  // This example uses a local copy of the GeoJSON stored at
-  // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-  script.src = 'https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js';
-  document.getElementsByTagName('head')[0].appendChild(script);
-}
+    map.data.setStyle(function(feature) {
+      return ({
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: feature.getProperty('duration')*10,
+          fillColor: feature.getProperty('color'),
+          fillOpacity: 0.35,
+          strokeWeight: 0
+        }
+      });
+    });
 
-// Loop through the results array and place a marker for each
-// set of coordinates.
-window.eqfeed_callback = function(results) {
-  for (var i = 0; i < results.features.length; i++) {
-    var coords = results.features[i].geometry.coordinates;
-    var latLng = new google.maps.LatLng(coords[1],coords[0]);
-    var marker = new google.maps.Marker({
-      position: latLng,
-      map: map
+
+    var infowindow = new google.maps.InfoWindow({
+    });
+
+    map.data.addListener('click', function(event) {
+      infowindow.setPosition({lng: event.feature.getGeometry().get().lng(), lat: event.feature.getGeometry().get().lat()});
+      // TODO: send ajax request to backend to get the information need to display,
+      // Remember to use callback to ensure the order
+      infowindow.setContent('<div>' +
+      '<p>'+ event.feature.getProperty('name') +'</p>' +
+      '</div>');
+      infowindow.open(map);
+    });
+
+
+    map.data.addListener('mouseover', function(event) {
+      event.feature.setProperty('color',"#0f0")
+    });
+
+    map.data.addListener('mouseout', function(event) {
+      event.feature.setProperty('color',"#f00")
     });
   }
-  // TODO: add data to the map, using json file, see https://developers.google.com/maps/documentation/javascript/earthquakes#try-it-yourself_1
-  // Update mao every time slide the slider
-}
+
+  sendRequest() {
+    $.ajax({
+      url: url,
+      data: data,
+      success: success,
+      dataType: dataType
+    });
+  }
