@@ -14,6 +14,21 @@
       success: function(data) {
         console.log(data);
         map.data.addGeoJson(prepareGeoJson(JSON.parse(data)));
+
+          var maxDate=new Date(Math.max.apply(Math, dates));
+        	// var maxDate=Math.max.apply(Math, dates);
+        	var minDate=new Date(Math.min.apply(Math, dates));
+          console.log(maxDate);
+          console.log(minDate);
+        		$("#ex1").slider({
+        					min:minDate.getTime(),
+        					max:maxDate.getTime(),
+        					value:maxDate.getTime(),
+        					step:1
+        		});
+
+
+
         map.data.setStyle(function(feature) {
           return ({
             icon: {
