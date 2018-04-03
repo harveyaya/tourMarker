@@ -23,9 +23,7 @@ from django.conf.urls import url, include
 urlpatterns = [
     path('', welcome.hello),
     path('admin/', admin.site.urls),
-    # path('welcome/', welcome.hello),
     url(r'', include('map.urls')),
     url(r'^api/map/', include('map.api_urls')),
-
-    # url(r'', include('map.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

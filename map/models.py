@@ -7,7 +7,8 @@ class Record(models.Model):
     latitude = models.FloatField()
     begin_time = models.DateField(auto_now=True, auto_created=True)
     duration = models.IntegerField(default=1)
-    photos = models.ImageField(null=True, blank=True)
+    # photos = models.ImageField(null=True, blank=True)
+    photos = models.ImageField(upload_to='Photo/')
 
     class Meta:
         db_table = 'Record'
