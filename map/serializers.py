@@ -22,7 +22,7 @@ class RecordPhotoSerializer(serializers.ModelSerializer):
     # In order to get photo url and serialize
     def get_photo_url(self, photo):
         request = self.context.get('request')
-        photo_url = photo.get('image')
+        photo_url = photo.image.url
         return request.build_absolute_uri(photo_url)
 
 class RecordPersonSerializer(serializers.ModelSerializer):
