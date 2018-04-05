@@ -1,12 +1,16 @@
 $(document).ready(function(){
 
 		$("#ex1").on('change', function(event) {
-			$("#slideValue").text(event.value.newValue)
+			var currentDate = new Date(event.value.newValue);
+			var year = currentDate.getUTCFullYear();
+			var month = currentDate.getUTCMonth()+1;
+			var day = currentDate.getUTCDate();
+			$("#slideValue").text(year+"-"+month+"-"+day)
 			map.data.setStyle(function(feature) {
 				var tempScale;
 				var num = feature.getProperty('date');
 				if(num<=event.value.newValue) {
-					tempScale=feature.getProperty('duration')*10;
+					tempScale=feature.getProperty('duration')*7;
 				} else {
 					tempScale=0;
 				}
