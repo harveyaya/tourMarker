@@ -28,7 +28,7 @@
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 5,
+      zoom: 3,
       center: {lng: -87.629, lat: 41.878},
       mapTypeId: 'terrain'
     });
@@ -84,7 +84,8 @@
       // infowindow.setContent('<div>' +
       // '<image src=\"'+ event.feature.getProperty('name') +'\" width=\"100\" height=\"100\">' +
       // '</div>');
-      infowindow.setContent(buildInfowindow());
+      var tempList = [{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"}]
+      infowindow.setContent(buildInfowindow(tempList));
 
 
     infowindow.open(map);
@@ -151,14 +152,14 @@ function prepareGeoJson(response){
   return result;
 }
 
-function buildInfowindow() {
+function buildInfowindow(photoList) {
   var html = "<div class=\"slideshow-container\">";
-  for(var i=1;i<=3;i++) {
+  for(var i=1; i<=photoList.length; i++) {
     // var c = i+1;
-    html+="<div class=\"mySlides\"><div class=\"numbertext\">"+ i + "/ 3"+"</div><img src=\"http://dylan-space.s3.amazonaws.com/background.jpg\"" + " style=\"width:100%\"><div class=\"text\"></div></div>"
+    html+="<div class=\"mySlides\"><div class=\"numbertext\">"+ i + "/ 3"+"</div><img src=\"" + photoList[i-1].photo_url + "\"" + " style=\"width:100%\"><div class=\"text\"></div></div>"
   }
   html+="<a class=\"prev\" onclick=\"plusSlides(-1)\">&#10094;</a><a class=\"next\" onclick=\"plusSlides(1)\">&#10095;</a></div><br><div style=\"text-align:center\">"
-  for(var i=1;i<=3;i++) {
+  for(var i=1; i<=photoList.length; i++) {
     html+= "<span class=\"dot\" onclick=\"currentSlide(" + i + ")\"></span>"
   }
   html+="</div>"
