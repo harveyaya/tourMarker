@@ -166,10 +166,9 @@ function buildInfowindow() {
 }
 
 function makeDropdown(data) {
-    console.log(data.size);
-    console.log(data);
+    data = JSON.parse(data);
     for (var i in data) {
-        username = data[i][1];
+        username = data[i][2][0]["name"];
         console.log(username);
         $("#example-getting-started").append("<option value="+username+">"+username+"</option>");
     }
