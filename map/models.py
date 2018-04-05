@@ -15,11 +15,17 @@ class Record(models.Model):
     latitude = models.FloatField()
     begin_time = models.DateField(auto_now=True, auto_created=True)
     duration = models.IntegerField(default=1)
-    # photos = models.ImageField(null=True, blank=True)
-    photos = models.ImageField(upload_to='Photo/')
-    person = models.ManyToManyField(Person, null=True, blank=True, related_name='record')
+    # photos = models.ImageField(upload_to='Photo/', blank=True, null=True)
+    person = models.ManyToManyField(Person, blank=True, related_name='record_person')
 
     class Meta:
         db_table = 'Record'
+
+
+class Photo(models.Model):
+    id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to='Photo/')
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='photo_record')
+
 
 
