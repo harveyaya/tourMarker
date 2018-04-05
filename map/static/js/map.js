@@ -38,7 +38,7 @@
       method: 'GET',
       url: '/api/map/add/record/',
       success: function(data) {
-//        console.log(data);
+       console.log(data);
         geoData = prepareGeoJson(JSON.parse(data));
         map.data.addGeoJson(geoData);
 
@@ -54,7 +54,9 @@
         					step:1
         		});
 
-        makeDropdown(data);
+        makeDropdown(data, function(){
+                  $('#example-getting-started').multiselect();
+        });
 
         map.data.setStyle(function(feature) {
           return ({
@@ -84,8 +86,12 @@
       // infowindow.setContent('<div>' +
       // '<image src=\"'+ event.feature.getProperty('name') +'\" width=\"100\" height=\"100\">' +
       // '</div>');
-      var tempList = [{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"}]
-      infowindow.setContent(buildInfowindow(tempList));
+      // var tempList = [{"photo_url":"/media/Photo/Capture2.PNG"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"},{"photo_url":"http://dylan-space.s3.amazonaws.com/background.jpg"}]
+
+      var photoList = event.feature.getProperty('photos');
+      var nameList = event.feature.getProperty('names');
+
+      infowindow.setContent(buildInfowindow(photoList, nameList));
 
 
     infowindow.open(map);
@@ -96,12 +102,6 @@
 
     });
 
-    // google.maps.event.addListener(infowindow,'domready',function(){
-    //     $('#myInfoWinDiv').click(function() {
-    //         //Do your thing
-    //
-    //     });
-    // })
 
     map.data.addListener('mouseover', function(event) {
       event.feature.setProperty('color',"#0f0")
@@ -125,7 +125,10 @@ function prepareGeoJson(response){
   var tempFeatures = [];
   for (var i in response) {
     resi = response[i][0];
-
+    var nameList = [];
+    response[i][2].forEach(function(name){
+      nameList.push(name.name);
+    });
     var temp = {
       type: "Feature",
       geometry: {
@@ -136,8 +139,9 @@ function prepareGeoJson(response){
         duration: resi["duration"],
         color: "#f00",
         // name: resi["duration"].toString(),
-        name: "http://dylan-space.s3.amazonaws.com/background.jpg",
-        date: new Date(resi["begin_time"])
+        names: nameList,
+        date: new Date(resi["begin_time"]),
+        photos: response[i][1]
       }
     };
     tempFeatures.push(temp);
@@ -152,25 +156,20 @@ function prepareGeoJson(response){
   return result;
 }
 
-function buildInfowindow(photoList) {
+function buildInfowindow(photoList, nameList) {
   var html = "<div class=\"slideshow-container\">";
   for(var i=1; i<=photoList.length; i++) {
     // var c = i+1;
-    html+="<div class=\"mySlides\"><div class=\"numbertext\">"+ i + "/ 3"+"</div><img src=\"" + photoList[i-1].photo_url + "\"" + " style=\"width:100%\"><div class=\"text\"></div></div>"
+    html+="<div class=\"mySlides\"><div class=\"numbertext\">"+ i + "/"+photoList.length+"</div><img src=\"" + photoList[i-1].photo_url + "\"" + " style=\"width:100%\"><div class=\"text\"></div></div>"
   }
   html+="<a class=\"prev\" onclick=\"plusSlides(-1)\">&#10094;</a><a class=\"next\" onclick=\"plusSlides(1)\">&#10095;</a></div><br><div style=\"text-align:center\">"
   for(var i=1; i<=photoList.length; i++) {
     html+= "<span class=\"dot\" onclick=\"currentSlide(" + i + ")\"></span>"
   }
+  html+="</div><div>"
+  for(var i=1; i<=nameList.length; i++) {
+    html+=nameList[i-1] + ' '
+  }
   html+="</div>"
   return html;
-}
-
-function makeDropdown(data) {
-    data = JSON.parse(data);
-    for (var i in data) {
-        username = data[i][2][0]["name"];
-        console.log(username);
-        $("#example-getting-started").append("<option value="+username+">"+username+"</option>");
-    }
 }

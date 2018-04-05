@@ -13,9 +13,14 @@ function setWrappedGeo(zoomLevel, geoJsonObject) {
     var minValue = Math.min.apply(null, distances);
     if(minValue <= threshold && minValue!=0) {//merge to min distance center
       // console.log(centers[distances.indexOf(minValue)]);
-      newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.name+=feature.properties.name;
+      newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.photos.push(...feature.properties.photos);
       feature.properties.duration=0;
       newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.date=Math.min(newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.date,feature.properties.date);
+      feature.properties.names.forEach(function(name1){
+        if(newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.names.indexOf(name1)<0) {
+          newGeoJson["features"][centers[distances.indexOf(minValue)]].properties.names.push(name1);
+        }
+      });
     } else if(distances.indexOf(minValue)>=0) {
       centers.push(distances.indexOf(minValue));
     }
