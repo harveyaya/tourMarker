@@ -54,9 +54,7 @@
         					step:1
         		});
 
-        makeDropdown(data, function(){
-                  $('#example-getting-started').multiselect();
-        });
+        makeDropdown(data, selectInit);
 
         map.data.setStyle(function(feature) {
           return ({

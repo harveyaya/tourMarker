@@ -8,7 +8,7 @@ $(document).ready(function(){
 			$("#slideValue").text(year+"-"+month+"-"+day)
 			map.data.setStyle(function(feature) {
 				var tempScale;
-				var num = feature.getProperty('date');
+				var num = feature.getProperty('date')+feature.getProperty('duration');
 				if(num<=event.value.newValue) {
 					tempScale=feature.getProperty('duration')*7;
 				} else {
