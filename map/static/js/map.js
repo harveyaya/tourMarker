@@ -38,7 +38,7 @@
       method: 'GET',
       url: '/api/map/add/record/',
       success: function(data) {
-        console.log(data);
+//        console.log(data);
         geoData = prepareGeoJson(JSON.parse(data));
         map.data.addGeoJson(geoData);
 
@@ -54,7 +54,7 @@
         					step:1
         		});
 
-
+        makeDropdown(data);
 
         map.data.setStyle(function(feature) {
           return ({
@@ -163,4 +163,14 @@ function buildInfowindow() {
   }
   html+="</div>"
   return html;
+}
+
+function makeDropdown(data) {
+    console.log(data.size);
+    console.log(data);
+    for (var i in data) {
+        username = data[i][1];
+        console.log(username);
+        $("#example-getting-started").append("<option value="+username+">"+username+"</option>");
+    }
 }
