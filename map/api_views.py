@@ -18,6 +18,7 @@ class AllRecordAPI(APIView):
         i = 0
         for record in records:
             photo_temp = Photo.objects.filter(record=record).values()
+            # print(photo_temp)
             serialized_photo = RecordPhotoSerializer(photo_temp, many=True, context={"request":request})
             photos_list[i] = serialized_photo.data
             i += 1
